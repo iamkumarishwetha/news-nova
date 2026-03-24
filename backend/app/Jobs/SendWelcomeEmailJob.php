@@ -5,6 +5,7 @@ namespace App\Jobs;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Log;
 use App\Mail\WelcomeMail;
 
 class SendWelcomeEmailJob implements ShouldQueue
@@ -24,7 +25,11 @@ class SendWelcomeEmailJob implements ShouldQueue
      */
     public function handle(): void
     {
-        Mail::to($this->user->email)
-            ->send(new WelcomeMail($this->user));
+        try {
+                Mail::to($this->user->email)
+                ->send(new WelcomeMail($this->user));
+            } catch (\Exception $e) {
+                Log::error($e->getMessage());
+        }
     }
 }
