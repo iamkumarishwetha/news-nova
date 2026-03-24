@@ -9,7 +9,7 @@ const [search, setSearch] = useState("");
 const fetchAllNews = async () => {
   try {
     const res = await fetch(
-      `http://127.0.0.1:8000/api/everything?q=${search}`
+      `${import.meta.env.VITE_API_URL}api/everything?q=${search}`
     );
     const data = await res.json();
     setAllNews(data.articles);
