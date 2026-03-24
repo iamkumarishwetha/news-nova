@@ -47,7 +47,7 @@ const [counts, setCounts] = useState({likes: 0,dislikes: 0,});
 const fetchCounts = async () => {
   try {
     const res = await fetch(
-      `http://localhost:8000/api/reactions?articleId=${encodeURIComponent(articleId)}`
+      `${import.meta.env.VITE_API_URL}api/reactions?articleId=${encodeURIComponent(articleId)}`
     );
     const data = await res.json();
     setCounts(data);

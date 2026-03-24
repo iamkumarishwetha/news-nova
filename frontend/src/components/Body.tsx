@@ -18,7 +18,7 @@ const fetchAllNews = async () => {
   }
 };
 useEffect(() => {
-  fetch("http://localhost:8000/api/top-headlines")
+  fetch(`${import.meta.env.VITE_API_URL}api/top-headlines`)
     .then((res) => res.json())
     .then((data) => setArticles(data.articles))
     .catch((err) => console.error(err));
