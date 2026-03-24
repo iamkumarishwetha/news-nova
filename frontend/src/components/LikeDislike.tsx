@@ -14,7 +14,7 @@ const [counts, setCounts] = useState({likes: 0,dislikes: 0,});
   }
 
   try {
-    const res = await fetch("http://127.0.0.1:8000/api/react", {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}api/react`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
