@@ -1,17 +1,40 @@
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+
 const Navbar = () => {
+  const [token, setToken] = useState(localStorage.getItem("token"));
+
+  useEffect(() => {
+    const handleStorageChange = () => {
+      setToken(localStorage.getItem("token"));
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    setToken(null); // important
+    window.location.href = "/login";
+  };
+
   return (
     <nav className="flex justify-between items-center bg-gray-900 text-white p-4">
-      <h2 className="text-xl font-bold">NewsNova</h2>
+      <Link to="/">
+        <h2 className="text-xl font-bold">NewsNova</h2>
+      </Link>
 
       <div className="flex gap-6">
         <Link to="/">Home</Link>
-
-        {/* Optional */}
-        {/* <Link to="/top-headlines">Top Headlines</Link> */}
-
-        <Link to="/login">Login</Link>
-        <Link to="/register">Register</Link>
+        {token ? (
+          <button onClick={handleLogout} className="cursor-pointer">Logout</button>
+        ) : (
+          <Link to="/login">Login</Link>
+        )}
       </div>
     </nav>
   );
