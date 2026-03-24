@@ -1,9 +1,9 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 const Navbar = () => {
   const [token, setToken] = useState(localStorage.getItem("token"));
-
+  const navigate = useNavigate();
   useEffect(() => {
     const handleStorageChange = () => {
       setToken(localStorage.getItem("token"));
@@ -18,8 +18,8 @@ const Navbar = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("token");
-    setToken(null); // important
-    window.location.href = "/login";
+    setToken(null); 
+    navigate("/login");
   };
 
   return (
@@ -31,7 +31,9 @@ const Navbar = () => {
       <div className="flex gap-6">
         <Link to="/">Home</Link>
         {token ? (
-          <button onClick={handleLogout} className="cursor-pointer">Logout</button>
+          <button onClick={handleLogout} className="cursor-pointer">
+            Logout
+          </button>
         ) : (
           <Link to="/login">Login</Link>
         )}
