@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import type { Article } from "../types/news";
 import LikeDislike from "./LikeDislike";
 
@@ -8,6 +9,7 @@ const Body = () => {
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
   const [totalResults, setTotalResults] = useState(0);
+  const navigate = useNavigate();
   const fetchAllNews = async () => {
     try {
       const query = search.trim() || "technology";
@@ -51,7 +53,7 @@ const Body = () => {
           <p className="text-center text-gray-500">No news found</p>
         ) : (
           allNews.map((item, index) => (
-            <div key={index} className="bg-white p-4 rounded shadow flex gap-4">
+            <div key={index} className="bg-white p-4 shadow flex gap-4 p-4 rounded-lg shadow-md hover:shadow-lg transition">
               <img
                 src={item.urlToImage || "https://via.placeholder.com/150"}
                 alt="news"
@@ -59,12 +61,30 @@ const Body = () => {
               />
 
               <div>
-                <h3 className="font-semibold text-lg !text-left">
+                <h3
+                  className="line-clamp-2 font-semibold text-lg !text-left cursor-pointer !text-gray-700"
+                  key={index}
+                  onClick={() =>
+                    navigate(`/news/${encodeURIComponent(item.url)}`, {
+                      state: item,
+                    })
+                  }
+                >
                   {item.title}
                 </h3>
 
                 <p className="text-gray-600 text-sm !text-left">
-                  {item.description || "No description available"}
+                  {item.description || "No description available"}{" "}
+                  <span className="text-blue-300 cursor-pointer"
+                    key={index}
+                    onClick={() =>
+                      navigate(`/news/${encodeURIComponent(item.url)}`, {
+                        state: item,
+                      })
+                    }
+                  >
+                    read more ...
+                  </span>
                 </p>
 
                 <LikeDislike articleId={item.url} />
@@ -111,7 +131,17 @@ const Body = () => {
                   className="w-16 h-16 object-cover rounded"
                 />
 
-                <p className="!text-sm font-medium !text-left">{item.title}</p>
+                <p
+                  className="!text-sm font-medium !text-left cursor-pointer"
+                  key={index}
+                  onClick={() =>
+                    navigate(`/news/${encodeURIComponent(item.url)}`, {
+                      state: item,
+                    })
+                  }
+                >
+                  {item.title}
+                </p>
               </div>
             ))}
           </div>
