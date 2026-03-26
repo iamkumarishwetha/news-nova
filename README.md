@@ -66,6 +66,7 @@ npm run dev
 ##  Live Demo
 https://news-nova-gamma.vercel.app/
 
+External API Doc: https://newsapi.org/docs/endpoints/everything
 
 ---
 
